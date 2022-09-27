@@ -41,3 +41,29 @@ node('Windows') {
         errorMessage = exception.getMessage()
     }
 }
+node('Windows') {
+    try {
+
+        stage ('Fetching customer details') {  
+            withCredentials([usernamePassword(credentialsId: 'DB_Cred', passwordVariable: 'MOS_DB_PASS', usernameVariable: 'MOS_DB_USER')]) {
+                
+                steps: {
+                        withEnv(["VAR_DBSERVER=${params.dbServer}", "VAR_DBNAME=${params.DB_Name}", "VAR_DBUSER=${MOS_DB_USER}", "VAR_DBPASSWORD=${MOS_DB_PASS}"]) {
+                            
+                                powershell script: '''
+                                    $Customers = Invoke-Sqlcmd -ServerInstance $($env:VAR_DBSERVER) -Database $($env:VAR_DBNAME) -Username $($env:VAR_DBUSER) -Password $($env:VAR_DBPASSWORD) -Query "select *from dbo.Customers" -Querytimeout 600 -Verbose -ErrorAction Continue
+                                    $Customers  
+                                    '''
+                            
+                        }
+                    }
+    
+            }
+        }
+  
+    }
+    catch (exception) {
+        currentBuild.result = "FAILURE"
+        errorMessage = exception.getMessage()
+    }
+}
