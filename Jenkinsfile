@@ -22,7 +22,16 @@ node('Windows') {
                             
                         }
                     }
-                     
+                steps: {
+                        withEnv(["VAR_DBSERVER=${params.dbServer}", "VAR_DBNAME=${params.DB_Name}", "VAR_DBUSER=${MOS_DB_USER}", "VAR_DBPASSWORD=${MOS_DB_PASS}"]) {
+                            
+                                powershell script: '''
+                                    $Employees = Invoke-Sqlcmd -ServerInstance $($env:VAR_DBSERVER) -Database $($env:VAR_DBNAME) -Username $($env:VAR_DBUSER) -Password $($env:VAR_DBPASSWORD) -Query "select *from dbo.Employees" -Querytimeout 600 -Verbose -ErrorAction Continue
+                                    $Employees.FirstName   
+                                    '''
+                            
+                        }
+                    }     
             }
         }
   
