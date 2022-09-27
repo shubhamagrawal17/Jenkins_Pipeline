@@ -1,6 +1,6 @@
 properties([
     buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '', daysToKeepStr: '', numToKeepStr: '20')),
-    disableConcurrentBuilds()
+    disableConcurrentBuilds(),
     parameters([
         string(defaultValue: 'Northwind', description: 'DB Name', name: 'DB_Name'),
         string(defaultValue: '192.168.0.106', description: 'DB Server', name: 'dbServer')
