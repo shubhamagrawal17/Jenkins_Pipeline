@@ -4,21 +4,18 @@ pipeline {
         string(name: 'DB_Name', defaultValue: 'Northwind', description: 'DB Nameo?')
         string(name: 'dbServer', defaultValue: '192.168.0.106', description: 'DB Server')
     }
-    environment { 
-        CC = 'clang'
-    }
     stages {
         stage('Run DB Script') {
             environment { 
                 AN_ACCESS_KEY = credentials('DB_Cred') 
             }
             steps {
-                withEnv(["VAR_DBSERVER=${params.dbServer}", "VAR_DBNAME=${params.DB_Name}", "VAR_DBUSER=$AN_ACCESS_KEY_USR", "VAR_DBPASSWORD=$AN_ACCESS_KEY_PSW"]) {
-                            
-                    powershell script: '''
-                        $Categories = Invoke-Sqlcmd -ServerInstance $($env:VAR_DBSERVER) -Database $($env:VAR_DBNAME) -Username $($env:VAR_DBUSER) -Password $($env:VAR_DBPASSWORD) -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
+                
+                 
+                    powershell script: 
+                        $Categories = Invoke-Sqlcmd -ServerInstance ${params.dbServer} -Database ${params.DB_Name} -Username $AN_ACCESS_KEY_USR -Password $AN_ACCESS_KEY_PSW -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
                         $Categories.CategoryName   
-                        '''
+                        
                 
             }
             }
