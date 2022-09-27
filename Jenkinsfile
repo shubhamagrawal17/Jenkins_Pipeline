@@ -12,7 +12,7 @@ node('Windows') {
         stage ('Run DB Script') {  
             withCredentials([usernamePassword(credentialsId: 'DB_Cred', passwordVariable: 'MOS_DB_PASS', usernameVariable: 'MOS_DB_USER')]) {
                 
-                SQL: {
+                steps: {
                         withEnv(["VAR_DBSERVER=${params.dbServer}", "VAR_DBNAME=${params.DB_Name}", "VAR_DBUSER=${MOS_DB_USER}", "VAR_DBPASSWORD=${MOS_DB_PASS}"]) {
                             
                                 powershell script: '''
