@@ -66,4 +66,8 @@ node('Windows') {
         currentBuild.result = "FAILURE"
         errorMessage = exception.getMessage()
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 709167a25038b73c28b7990f0a4757442c7095b7
