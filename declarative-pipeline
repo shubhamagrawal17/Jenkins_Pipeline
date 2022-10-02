@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+        parameters{
+            string(name: 'DB_Name', defaultValue: 'Northwind', description: 'DB Nameo?')
+            string(name: 'dbServer', defaultValue: '192.168.0.106', description: 'DB Server')
+            }
+
+            stages {
+                stage("CategoryName") {
+                    environment { 
+                        AN_ACCESS_KEY = credentials('DB_Cred') 
+                        }
+                        steps {
+                                powershell script: '''
+
+                                $Categories = Invoke-Sqlcmd -ServerInstance ${env:dbServer} -Database ${env:DB_Name} -Username ${env:AN_ACCESS_KEY_USR} -Password ${env:AN_ACCESS_KEY_PSW} -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
+                                $Categories.CategoryName 
+                                '''
+                            }
+                        }
+                }
+                stage("EmployeesFirstName") {
+                    environment { 
+                        AN_ACCESS_KEY = credentials('DB_Cred') 
+                        }
+                        steps {
+                                powershell script: '''
+
+                                $Categories = Invoke-Sqlcmd -ServerInstance ${env:dbServer} -Database ${env:DB_Name} -Username ${env:AN_ACCESS_KEY_USR} -Password ${env:AN_ACCESS_KEY_PSW} -Query "select *from dbo.Employees" -Querytimeout 600 -Verbose -ErrorAction Continue
+                                $Employees.FirstName 
+                                '''
+                            }
+                        }
+                
+            }
+        
