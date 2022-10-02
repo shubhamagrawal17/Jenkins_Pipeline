@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        string(name: 'DB_Name', defaultValue: 'Northwind', description: 'DB Nameo?')
+        string(name: 'DBName', defaultValue: 'Northwind', description: 'DB Nameo?')
         string(name: 'dbServer', defaultValue: '192.168.0.106', description: 'DB Server')
     }
 
@@ -12,7 +12,7 @@ pipeline {
                         }
                         steps {
                             powershell script: '''
-                                $Categories = Invoke-Sqlcmd -ServerInstance "${params.dbServer}" -Database "${params.DB_Name}" -Username sa -Password sa -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
+                                $Categories = Invoke-Sqlcmd -ServerInstance "${params.dbServer}" -Database "${params.DBName}" -Username sa -Password sa -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
                                 $Categories.CategoryName 
                                 '''
                             }
