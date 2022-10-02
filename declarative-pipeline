@@ -1,5 +1,8 @@
 pipeline {
     agent any
+        options {
+            buildDiscarder(logRotator(numToKeepStr: '10')) 
+        }
         parameters{
             string(name: 'DB_Name', defaultValue: 'Northwind', description: 'DB Nameo?')
             string(name: 'dbServer', defaultValue: '192.168.0.106', description: 'DB Server')
