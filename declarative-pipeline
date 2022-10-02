@@ -1,25 +1,23 @@
 pipeline {
     agent any
-    properties([
-        parameters([
-            string(name: 'DB_Name', defaultValue: 'Northwind', description: 'DB Nameo?'),
-            string(name: 'dbServer', defaultValue: '192.168.0.106', description: 'DB Server')
-            ])
-        ])
 
             stages {
-                stage("Env Variables") {
-                    environment { 
-                        AN_ACCESS_KEY = credentials('DB_Cred') 
-                        }
-                        steps {
-                            powershell script: '''
-                                
-                                $Categories = Invoke-Sqlcmd -ServerInstance ${params.dbServer} -Database ${params.dbName} -Username ${env:AN_ACCESS_KEY_USR} -Password ${env:AN_ACCESS_KEY_PSW} -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
-                                $Categories.CategoryName 
+                stage('Env Variables') {
+                    environment {
+                        AN_ACCESS_KEY = credentials('DB_Cred')
+                    }
+            steps {
+                properties([
+                parameters([
+                    string(name: 'DB_Name', defaultValue: 'Northwind', description: 'DB Nameo?'),
+                    string(name: 'dbServer', defaultValue: '192.168.0.106', description: 'DB Server')
+                    ])
+                ])
+                powershell script: '''
+                                $Categories = Invoke-Sqlcmd -ServerInstance "192.168.0.106" -Database "Northwind" -Username ${env.AN_ACCESS_KEY_USR} -Password sa -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
+                                $Categories.CategoryName
                                 '''
-                            }
-                        }
+            }
                 }
             }
-        
+}
