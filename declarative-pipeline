@@ -2,7 +2,7 @@ pipeline {
     agent any
     parameters {
         string(name: 'dbServer', defaultValue: '192.168.0.106', description: 'DB Server')
-        string(name: 'dbName', defaultValue: 'Northwind', description: 'DB Name')
+        string(name: 'dbName', defaultValue: '192.168.0.106', description: 'DB Name')
         
     }
 
