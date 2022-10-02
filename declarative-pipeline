@@ -12,8 +12,8 @@ pipeline {
                         }
                         steps {
                                 powershell script: '''
-                                
-                                $Categories = Invoke-Sqlcmd -ServerInstance ${params.dbServer} -Database ${DB_Name} -Username ${env:AN_ACCESS_KEY_USR} -Password ${env:AN_ACCESS_KEY_PSW} -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
+                                Import-Module sqlplus
+                                $Categories = Invoke-Sqlcmd -ServerInstance ${params.dbServer} -Database ${params.DB_Name} -Username ${env:AN_ACCESS_KEY_USR} -Password ${env:AN_ACCESS_KEY_PSW} -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
                                 $Categories.CategoryName 
                                 '''
                             }
