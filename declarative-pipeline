@@ -13,7 +13,7 @@ pipeline {
                         steps {
                             powershell script: '''
                                 
-                                $Categories = Invoke-Sqlcmd -ServerInstance ${params.dbServer}  -Username ${env:AN_ACCESS_KEY_USR} -Password ${env:AN_ACCESS_KEY_PSW} -Database ${params.dbName} -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
+                                $Categories = Invoke-Sqlcmd -ServerInstance ${params.dbServer} -Database ${params.dbName} -Username ${env:AN_ACCESS_KEY_USR} -Password ${env:AN_ACCESS_KEY_PSW} -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
                                 $Categories.CategoryName 
                                 '''
                             }
