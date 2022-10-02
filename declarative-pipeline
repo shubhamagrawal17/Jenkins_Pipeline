@@ -12,8 +12,8 @@ pipeline {
                         }
                         steps {
                             powershell script: '''
-                                #$Categories = Invoke-Sqlcmd -ServerInstance "${env:dbServer}" -Database "${env:DBName}" -Username ${env:AN_ACCESS_KEY_USR} -Password ${env:AN_ACCESS_KEY_PSW} -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
-                                $Categories = Invoke-Sqlcmd -ServerInstance ${params.dbServer} -Database "${env:DBName}" -Username ${env:AN_ACCESS_KEY_USR} -Password ${env:AN_ACCESS_KEY_PSW} -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
+                                
+                                $Categories = Invoke-Sqlcmd -ServerInstance ${params.dbServer} -Database ${params.DBName} -Username ${env:AN_ACCESS_KEY_USR} -Password ${env:AN_ACCESS_KEY_PSW} -Query "select *from dbo.Categories" -Querytimeout 600 -Verbose -ErrorAction Continue
                                 $Categories.CategoryName 
                                 '''
                             }
